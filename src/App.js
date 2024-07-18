@@ -1,10 +1,14 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Navbar, Nav  } from 'react-bootstrap';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 import 메인사진 from './img/bg.png';
-
+import { useState } from 'react';
+import data from './Component/data.js';
+import CardComponent from './Component/CardComponent.js';
 
 function App() {
+  const [shoes] = useState(data);
+
   return (
     <div className="App">
       <Navbar bg="dark" data-bs-theme="dark">
@@ -18,29 +22,15 @@ function App() {
         </Container>
       </Navbar>
 
-      <div className='main-bg' style={{ backgroundImage : 'url('+ 메인사진 + ')' }}></div>
+      <div className='main-bg' style={{ backgroundImage: 'url(' + 메인사진 + ')' }}></div>
 
       <div className="container">
         <div className="row">
-            <div className="col-md-4"> 
-              <img src={process.env.PUBLIC_URL + '/logo192.png'} /> 
-              <h4>상품명</h4>
-              <p>상품설명</p>
-            </div>
-            <div className="col-md-4">
-              <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="80%"/>
-              <h4>상품명</h4>
-              <p>상품설명</p>
-            </div>     
-            <div className="col-md-4">
-              <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="80%"/>
-              <h4>상품명</h4>
-              <p>상품설명</p>
-            </div>
-
+          {shoes.map((shoe, index) => (
+            <CardComponent key={index} shoes={shoe} />
+          ))}
         </div>
       </div>
-    
     </div>
   );
 }
