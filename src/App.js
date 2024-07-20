@@ -3,9 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Navbar, Nav, Button } from 'react-bootstrap';
 import MainComponent from './Component/MainComponent.js';
 import DetailsComponent from './Component/DetailsComponent.js';
+import CartComponent from './Component/CartComponent.js';
 import data from './Component/data.js';
 import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 
 function App() {
   const [shoes, shoesSet] = useState(data);
@@ -33,6 +35,7 @@ function App() {
             <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
             <Nav.Link onClick={() => { navigate('/detail') }}>Detail</Nav.Link>
             <Nav.Link onClick={() => { navigate('/event') }}>event</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/cart') }}>cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -48,10 +51,27 @@ function App() {
           <Route path='2' element={<div>생일기념 쿠폰 받기</div>} />
         </Route>
         <Route path='*' element={<div>없는 페이지</div>} />
+        <Route path='/cart' element={ <CartComponent /> }/>
       </Routes>
       <Button onClick={sortShoes}>
         {isAscending ? '가나다순 정렬' : '다나가순 정렬'}
       </Button>
+      <button onClick={()=>{
+      fetch('http://localhost:8080/api/posts').then(결과 => 결과.json()).then((결과) => { console.log(결과) } )
+      .catch(()=>{
+        console.log('실패함')
+      })
+    }}>버튼1</button>
+      <button onClick={()=>{
+      axios.get('https://codingapple1.github.io/shop/data3.json').then((결과)=>{
+        let copy = [...shoes, ...결과.data]
+        shoesSet(copy)
+      })
+      .catch(()=>{
+        console.log('실패함')
+      })
+    }}>버튼2</button>
+      
     </div>
   );
 }
